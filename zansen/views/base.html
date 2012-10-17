@@ -8,15 +8,17 @@
 </head>
 <body>
     <div class='main-div' id='header'>
+        <h1>Zansen</h1>
     </div>
     <div class='main-div' id='nav'>
         <ul class="nav">
-            <li><a href="#">zansen</a></li>
-            <li><a href="#">msg</a></li>
-            <li><a href="#">palaute</a></li>
+            <li><a href="/">zansen</a></li>
+            <li><a href="news">newz0r</a></li>
+            <li><a href="msg">msg</a></li>
         </ul>
     </div>
     <div class='main-div' id='content'>
+        {% block content %} {% endblock %}
     </div>
     <div id='footer'>
         <p>© Tiksa 2012. Kaikki super oikeudet pidätetään.</p>
