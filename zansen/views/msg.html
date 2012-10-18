@@ -1,45 +1,62 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% for message in messages %}
-    {{ message.name }}
-{% endfor %}
-<div id="msg-wrapper">
-    <div class="message">
-        <div class="clearfix">
-            <h3>Jorma</h3>
-            <div class="datetime">17.10.2012 klo 21.03</div>
-        </div>
-        <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam dolor odio, cursus ut sodales eu, imperdiet sit amet mauris. Proin non laoreet lorem. Donec aliquam felis sem, eu pharetra magna. Aliquam rutrum porttitor blandit. Suspendisse ut quam vitae sem adipiscing gravida in vitae massa. Fusce ut consequat lorem. Sed vestibulum nibh id mauris accumsan non dignissim purus dictum.
-        </p>
-    </div>
-    <div class="message">
-        <div class="clearfix">
-            <h3>Erno</h3>
-            <div class="datetime">17.10.2012 klo 21.03</div>
-        </div>
-        <p>
-        Etiam dolor odio, cursus ut sodales eu, imperdiet sit amet mauris. Proin non laoreet lorem. Donec aliquam felis sem, eu pharetra magna. Aliquam rutrum porttitor blandit. Suspendisse ut quam vitae sem adipiscing gravida in vitae massa. Fusce ut consequat lorem. Sed vestibulum nibh id mauris accumsan non dignissim purus dictum.
-        </p>
-    </div>
-    <div class="message">
-        <div class="clearfix">
-            <h3>Iiro</h3>
-            <div class="datetime">17.10.2012 klo 21.03</div>
-        </div>
-        <p>
-        Asdf asd rsdf orem ipsum dolor sit amet, consectetur adipiscing elit. Etiam dolor odio, cursus ut sodales eu, imperdiet sit amet mauris. Proin non laoreet lorem. Donec aliquam felis sem, eu pharetra magna. Aliquam rutrum porttitor blandit. Suspendisse ut quam vitae sem adipiscing gravida in vitae massa. Fusce ut consequat lorem. Sed vestibulum nibh id mauris accumsan non dignissim purus dictum.
-        </p>
+<div id="msg-page-wrapper">
+    <div id="msg-wrapper">
+        {% for message in messages %}
+            <div class="message">
+                <div class="clearfix">
+                    <h3>{{ message.sender }}</h3>
+                    <div class="datetime">{{ message.date|date:"d.m.Y \k\l\o H:i" }}</div>
+                </div>
+                <p>{{ message.text }}</p>
+            </div>
+        {% endfor %}
     </div>
     <hr>
-    <form id="form-msg" action="#" method="post">
+    <form id="form-msg" action="" method="post">
         {% csrf_token %}
-        <label for="input-name">Nimimerkki</label><br />
-        <input class="input" id="input-name" type="text" name="name" /><br />
-        <label for="input-msg">Viesti</label><br />
-        <textarea class="input" id="input-msg" name="msg" cols="75" rows="5"></textarea>
+            {% for field in form %}
+            {{ field.errors }}
+            {{ field.label_tag }}<br />
+            {{ field }}<br />
+        {% endfor %}
         <input type="submit" value="Lähetä" />
     </form>
 </div>
+
+<script>
+    
+    $(document).ready(function() {
+        var form = $('#form-msg');
+
+        form.submit(function() {
+            $.ajax({
+                type: "POST",
+                url: '/send_msg/',
+                data: form.serialize(),
+                success: function (data) {
+                    $('#id_sender').attr('value', '');
+                    $('#id_text').attr('value', '');
+                    
+                    console.log(data);
+                    var dateParts = data.date.split(" ")[0].split("-");
+                    var timeParts = data.date.split(" ")[1].split(":");
+                    var formattedDate = dateParts[2] + "." + dateParts[1] + "." + dateParts[0] + " klo " + timeParts[0] + ":" + timeParts[1];
+                    var msgHtml = 
+                        '<div class="message">\
+                            <div class="clearfix">\
+                            <h3>' + data.sender + '</h3>\
+                            <div class="datetime">' + formattedDate + '</div>\
+                            </div>\
+                            <p>' + data.text + '</p>\
+                        </div>';
+                    $('#msg-wrapper').append(msgHtml);
+                }
+            });
+            
+            return false;
+        });
+    });
+</script>
 {% endblock %}

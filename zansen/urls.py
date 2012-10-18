@@ -8,7 +8,7 @@ urlpatterns = patterns('',
     url(r'^$', 'zansen.views.index', name='index'),
     url(r'^news', 'zansen.views.news', name='news'),
     url(r'^msg', 'zansen.views.msg', name='msg'),
-    # url(r'^zansen/', include('zansen.foo.urls')),
+    url(r'^send_msg', 'zansen.views.send_msg', name='send_msg'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
