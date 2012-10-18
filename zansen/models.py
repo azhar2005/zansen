@@ -5,4 +5,5 @@ class User(models.Model):
     hash = models.CharField(max_length=256)
 
 class Message(models.Model):
-    message = models.TextField()
+    sender = models.CharField(max_length=256)
+    text = models.TextField()

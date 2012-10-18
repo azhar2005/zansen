@@ -1,5 +1,45 @@
 {% extends "base.html" %}
 
 {% block content %}
-    No niin no niin
+{% for message in messages %}
+    {{ message.name }}
+{% endfor %}
+<div id="msg-wrapper">
+    <div class="message">
+        <div class="clearfix">
+            <h3>Jorma</h3>
+            <div class="datetime">17.10.2012 klo 21.03</div>
+        </div>
+        <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam dolor odio, cursus ut sodales eu, imperdiet sit amet mauris. Proin non laoreet lorem. Donec aliquam felis sem, eu pharetra magna. Aliquam rutrum porttitor blandit. Suspendisse ut quam vitae sem adipiscing gravida in vitae massa. Fusce ut consequat lorem. Sed vestibulum nibh id mauris accumsan non dignissim purus dictum.
+        </p>
+    </div>
+    <div class="message">
+        <div class="clearfix">
+            <h3>Erno</h3>
+            <div class="datetime">17.10.2012 klo 21.03</div>
+        </div>
+        <p>
+        Etiam dolor odio, cursus ut sodales eu, imperdiet sit amet mauris. Proin non laoreet lorem. Donec aliquam felis sem, eu pharetra magna. Aliquam rutrum porttitor blandit. Suspendisse ut quam vitae sem adipiscing gravida in vitae massa. Fusce ut consequat lorem. Sed vestibulum nibh id mauris accumsan non dignissim purus dictum.
+        </p>
+    </div>
+    <div class="message">
+        <div class="clearfix">
+            <h3>Iiro</h3>
+            <div class="datetime">17.10.2012 klo 21.03</div>
+        </div>
+        <p>
+        Asdf asd rsdf orem ipsum dolor sit amet, consectetur adipiscing elit. Etiam dolor odio, cursus ut sodales eu, imperdiet sit amet mauris. Proin non laoreet lorem. Donec aliquam felis sem, eu pharetra magna. Aliquam rutrum porttitor blandit. Suspendisse ut quam vitae sem adipiscing gravida in vitae massa. Fusce ut consequat lorem. Sed vestibulum nibh id mauris accumsan non dignissim purus dictum.
+        </p>
+    </div>
+    <hr>
+    <form id="form-msg" action="#" method="post">
+        {% csrf_token %}
+        <label for="input-name">Nimimerkki</label><br />
+        <input class="input" id="input-name" type="text" name="name" /><br />
+        <label for="input-msg">Viesti</label><br />
+        <textarea class="input" id="input-msg" name="msg" cols="75" rows="5"></textarea>
+        <input type="submit" value="Lähetä" />
+    </form>
+</div>
 {% endblock %}
